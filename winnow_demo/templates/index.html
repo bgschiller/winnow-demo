@@ -24,13 +24,26 @@
                 </div>
             </div>
             <div class="filter-json">
-                <textarea name="filter-json-input"></textarea>
+                <textarea name="filter-json-input">
+                {{ predefined_filters['That LA Diet'] | tojson }}
+                </textarea>
             </div>
             <button type="submit">Find me some recipes!</button>
         </form>
         <div class="results-target">
-            <div class="sql-string"></div>
-            <div class="recipe-results"></div>
+            <div class="sql-string">
+                <pre>{{ sql_results.query }}</pre>
+                <pre>{{ sql_results.params }}</pre>
+            </div>
+            <div class="recipe-results">
+            {% for res in db_results %}
+                <div class="recipe">
+                    <h5><a href="{{ res.url }}">{{ res.name }}</a></h5>
+                    <img src="{{res.img_url}}">
+                    <p>{{ res.description }}</p>
+                </div>
+            {% endfor %}
+            </div>
         </div>
     </body>
 </html>

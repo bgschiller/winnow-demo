@@ -98,3 +98,16 @@ def fill_db_stmts():
 
     for index in INDICES:
         yield index, ()  # empty tuple is the query params
+
+if __name__ == '__main__':
+    import psycopg2
+
+    conn = psycopg2.connect('dbname=winnow_recipes')
+    conn.set_session(autocommit=True)
+
+    with conn.cursor() as c:
+        for q in fill_db_stmts():
+            try:
+                c.execute(*q)
+            except Exception as e:
+                print(e, *q)
