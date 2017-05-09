@@ -3,38 +3,38 @@ from winnow import Winnow
 RECIPE_SOURCES = [
     # standard sources
     dict(
-        data_source='Name',
+        display_name='Name',
         column='name',
         value_types=['string'],
     ),
     dict(
-        data_source='Date Published',
+        display_name='Date Published',
         column='date_published',
         value_types=['absolute_date', 'relative_date'],
     ),
     dict(
-        data_source='Description',
+        display_name='Description',
         column='description',
         value_types=['string'],
     ),
 
     # special sources
     dict(
-        data_source='Prep Time (minutes)',
+        display_name='Prep Time (minutes)',
         column='(EXTRACT(EPOCH FROM prep_time)::int / 60)',
         value_types=['numeric'],
     ),
     dict(
-        data_source='Cook Time (minutes)',
+        display_name='Cook Time (minutes)',
         column='(EXTRACT(EPOCH FROM cook_time)::int / 60)',
         value_types=['numeric'],
     ),
     dict(
-        data_source='Ingredients',
+        display_name='Ingredients',
         value_types=['collection'],
     ),
     dict(
-        data_source='Suitable for Diet',
+        display_name='Suitable for Diet',
         value_types=['collection'],
         picklist_values=[
             'vegan',
@@ -65,12 +65,12 @@ def ingredients(rw, clause):
         {% endif %}
         id = ANY(
             SELECT recipe_id FROM ingredient
-            {% for ix, ing in enumerate(value) %}
-                , plainto_tsquery('english', {{ ing }}) "q{{ ix }}"
+            {% for ing in value %}
+                , plainto_tsquery('english', {{ ing }}) "q{{ loop.index }}"
             {% endfor %}
             WHERE
-            {% for ix, ing in enumerate(value) %}
-                to_tsvector('english', ingredient_text) @@ "q{{ ix }}"
+            {% for ing in value %}
+                to_tsvector('english', ingredient_text) @@ "q{{ loop.index }}"
                 {% if not loop.last %} OR {% endif %}
             {% endfor %}
         )

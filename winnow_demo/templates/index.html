@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Winnow Demo</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>Winnow Demo - Recipe Search</h1>
+        <form method="post" action="/recipe-filter">
+            <h2>Choose a filter to find corresponding recipes</h2>
+            <div class="predefined-filters">
+                {% for name, filt in predefined_filters.items() %}
+                    <div class="predef-filt">
+                        <input type="radio" name="predefined"
+                            value="{{ name }}"
+                            data-filter="{{ filt | tojson }}">
+                        {{ name }}
+                    </div>
+                {% endfor %}
+                <div class="predef-filt">
+                    <input type="radio" name="predefined" value="build-my-own">
+                    Build my Own
+                </div>
+            </div>
+            <div class="filter-json">
+                <textarea name="filter-json-input"></textarea>
+            </div>
+            <button type="submit">Find me some recipes!</button>
+        </form>
+        <div class="results-target">
+            <div class="sql-string"></div>
+            <div class="recipe-results"></div>
+        </div>
+    </body>
+</html>
