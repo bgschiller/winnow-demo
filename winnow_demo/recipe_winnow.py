@@ -66,11 +66,11 @@ def ingredients(rw, clause):
         id = ANY(
             SELECT recipe_id FROM ingredient
             {% for ing in value %}
-                , plainto_tsquery('english', {{ ing }}) "q{{ loop.index }}"
+                , plainto_tsquery('english', {{ ing }}) "q{{ loop.index | sqlsafe }}"
             {% endfor %}
             WHERE
             {% for ing in value %}
-                to_tsvector('english', ingredient_text) @@ "q{{ loop.index }}"
+                to_tsvector('english', ingredient_text) @@ "q{{ loop.index | sqlsafe }}"
                 {% if not loop.last %} OR {% endif %}
             {% endfor %}
         )
@@ -89,7 +89,7 @@ def diet_suitability(rw, clause):
         {% endif %}
         id = ANY(
             SELECT recipe_id FROM diet_suitability
-            WHERE diet = ANY(VALUES {{ value | pg_array }})
+            WHERE diet = ANY({{ value }})
         )
         ''',
         value=clause['value_vivified'],
