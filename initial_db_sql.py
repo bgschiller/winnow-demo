@@ -82,10 +82,19 @@ def insert_stmt(row):
         raise ValueError('Unrecognized row type, {}'.format(row))
 
 
-def fill_db():
+INDICES = (
+    '''CREATE INDEX ingredient_full_text ON ingredient
+    USING gin(to_tsvector('english', ingredient_text));''',
+)
+
+
+def fill_db_stmts():
     with open('recipes.sql') as f:
         yield f.read(), dict()
     with open('openrecipes.jsonlines') as f:
         for ix, recipe in enumerate(f):
             for row in schematize_recipe(ix, json.loads(recipe)):
                 yield insert_stmt(row)
+
+    for index in INDICES:
+        yield index, ()  # empty tuple is the query params

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Winnow Demo</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>Winnow Demo - Recipe Search</h1>
+        <form method="post">
+            <h2>Choose a filter to find corresponding recipes</h2>
+            <div class="predefined-filters">
+                <input type="radio" name="predefined" value="gluten-free-w-tomatoes"
+                    data-filter='{"logical_op":"&amp;", "filter_clauses":[{"data_source":'
+                >
+
+                <input type="radio" name="predefined" value="build-my-own">
+            </div>
+            <h2>Or build your own!</h2>
+            <div class="filter-json">(textarea to fill with json)</div>
+            <button type="submit">Find me some recipes!</button>
+        </form>
+        <div class="results-target">
+            <div class="sql-string"></div>
+            <div class="recipe-results"></div>
+        </div>
+    </body>
+</html>
