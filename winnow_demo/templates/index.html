@@ -22,7 +22,7 @@
                         >
                         <label for="predefined_{{ loop.index }}">
                             <span class="icon">
-                                {{ predef.icon | safe }}
+                                <img src="{{ predef.icon }}">
                             </span>
                             <br>
                             {{ predef.name }}
@@ -59,9 +59,11 @@
                 <div class="recipe-results">
                 {% for res in results.rows %}
                     <div class="recipe">
-                        <h5><a href="{{ res.url }}">{{ res.name }}</a></h5>
-                        <img src="{{res.img_url}}">
-                        <p>{{ res.description }}</p>
+                        <a href="{{ res.url }}"><img src="{{res.img_url}}"></a>
+                        <div class="recipe-text">
+                            <p class="recipe-title"><a href="{{ res.url }}">{{ res.name }}</a></p>
+                            <p class="recipe-description">{{ res.description }}</p>
+                        </div>
                     </div>
                 {% endfor %}
                 </div>

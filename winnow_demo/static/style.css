@@ -88,4 +88,41 @@ input[type="radio"]:checked ~ label {
 .sql-string .highlight {
     min-width: 400px;
     margin: 5px;
+    padding: 0.5em;
+}
+
+@media(max-width: 500px){
+    .sql-string .highlight {
+        width: 100%;
+        overflow: scroll;
+        margin: 2em;
+    }
+}
+
+.recipe-results {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.recipe {
+    width: 300px;
+    border: 1px solid black;
+    border-radius: 4px;
+    margin: 10px;
+}
+
+
+.recipe-text {
+    padding: 1em;
+}
+.recipe-title {
+    margin-top: 0;
+    font-size: 1.3em;
+    font-weight: bold;
+}
+
+.recipe img {
+    width: 100%;
 }
