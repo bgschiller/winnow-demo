@@ -5,8 +5,8 @@ CREATE TABLE recipe (
     date_published timestamp,
     url varchar(255),
     img_url varchar(255),
-    prep_time varchar(31),
-    cook_time varchar(31),
+    prep_time interval,
+    cook_time interval,
     yield varchar(31),
     description varchar(580)
 );

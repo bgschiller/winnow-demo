@@ -82,14 +82,27 @@ PREDEFINED_FILTERS = [
         },
         icon='<img src="/static/meat_and_potat.png">'
     ),
+    dict(
+        name='Quick, use the tomatoes!',
+        filt={
+            'logical_op': '&',
+            'filter_clauses': [
+                {
+                    'data_source': 'Cook Time (minutes)',
+                    'operator': '<=',
+                    'value': 5,
+                },
+                {
+                    'data_source': 'Ingredients',
+                    'operator': 'any of',
+                    'value': ['tomatoes'],
+                },
+            ],
+        },
+        icon='<img src="/static/meat_and_potat.png">'
+    ),
 ]
 
-
-# Throw some fake filters in for testing the frontend
-for other_name in (
-        'Veggie',
-        'Quick! use the strawberries'):
-    PREDEFINED_FILTERS.append(dict(PREDEFINED_FILTERS[0], name=other_name))
 
 
 GLUTEN_FREE_RESULTS = [
