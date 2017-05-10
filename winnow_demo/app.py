@@ -6,7 +6,15 @@ import psycopg2
 import os
 import copy
 
-app = Flask(__name__)
+
+class HighlightingFlask(Flask):
+    jinja_options = dict(Flask.jinja_options)
+    jinja_options.setdefault(
+        'extensions',
+        []).append('jinja2_highlight.HighlightExtension')
+
+
+app = HighlightingFlask(__name__)
 
 
 DATABASE_URL = os.getenv('DATABASE_URL', 'dbname=winnow_recipes')

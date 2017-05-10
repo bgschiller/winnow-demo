@@ -73,3 +73,19 @@ input[type="radio"]:checked ~ label {
         width: 90%;
     }
 }
+
+.sql-string {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 1.2em;
+    flex-wrap: wrap;
+}
+.sql-string pre {
+    margin: 0;
+}
+
+.sql-string .highlight {
+    min-width: 400px;
+    margin: 5px;
+}

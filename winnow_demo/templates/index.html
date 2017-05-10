@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <title>Winnow Demo</title>
+        <link rel="stylesheet" href="/static/friendly.css">
         <link rel="stylesheet" href="/static/style.css">
     </head>
     <body>
@@ -50,8 +51,10 @@
         {% if results %}
             <div id="results" class="results-target">
                 <div class="sql-string">
-                    <pre>{{ results.query }}</pre>
-                    <pre>{{ results.params }}</pre>
+                    {% highlight 'sql' %}{{ results.query }}
+                    {% endhighlight %}
+                    {% highlight 'python' %}{{ results.params }}
+                    {% endhighlight %}
                 </div>
                 <div class="recipe-results">
                 {% for res in results.rows %}
