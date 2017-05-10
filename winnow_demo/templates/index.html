@@ -4,28 +4,108 @@
         <meta charset="utf-8">
         <title>Winnow Demo</title>
         <link rel="stylesheet" href="style.css">
+        <style>
+        .predefined-filters {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: row;
+        }
+        .predef-filt {
+            box-sizing: border-box;
+            width: 23%;
+            margin: 20px 1% 20px 0;
+            height: 180px;
+            vertical-align: top;
+            font-size: 22px;
+            text-align: center;
+        }
+        @media(max-width: 768px){
+            .predefined-filters {
+                flex-wrap: wrap;
+            }
+            .predef-filt {
+                width: 45%;
+            }
+        }
+
+        label {
+            border: 1px solid rgba(black,.15);
+            box-sizing: border-box;
+            display: block;
+            height: 100%;
+            width: 100%;
+            padding: 10px 10px 30px 10px;
+            cursor: pointer;
+            opacity: .5;
+        }
+        label:hover, label:focus, label:active {
+            border: 1px solid rgba(black,.5);
+        }
+
+        input[type="radio"] {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        input[type="radio"]:active ~ label {
+          opacity: 1;
+        }
+
+
+        input[type="radio"]:checked ~ label {
+            opacity: 1;
+            border: 1px solid black;
+        }
+
+        .icon img {
+            max-width: 80%;
+            max-height: 80%;
+        }
+
+
+        </style>
     </head>
     <body>
         <h1>Winnow Demo - Recipe Search</h1>
-        <form method="post" action="/recipe-filter">
+        <form method="post">
             <h2>Choose a filter to find corresponding recipes</h2>
             <div class="predefined-filters">
-                {% for name, filt in predefined_filters.items() %}
-                    <div class="predef-filt">
-                        <input type="radio" name="predefined"
-                            value="{{ name }}"
-                            data-filter="{{ filt | tojson }}">
-                        {{ name }}
-                    </div>
+                {% for predef in predefined_filters %}
+                    <p class="predef-filt">
+                        <input type="radio"
+                            name="predefined"
+                            id="predefined_{{ loop.index }}"
+                            value="{{ predef.name }}"
+                            data-filter="{{ predef.filt | tojson }}"
+                            {% if predef.name == chosen_filt.name %}checked{% endif %}
+                        >
+                        <label for="predefined_{{ loop.index }}">
+                            <span class="icon">
+                                {{ predef.icon | safe }}
+                            </span>
+                            <br>
+                            {{ predef.name }}
+                        </label>
+                    </p>
                 {% endfor %}
-                <div class="predef-filt">
-                    <input type="radio" name="predefined" value="build-my-own">
-                    Build my Own
-                </div>
+                <p class="predef-filt">
+                    <input type="radio"
+                        name="predefined"
+                        id="predefined_build-my-own"
+                        value="build-my-own"
+                        data-filter="{{ user_supplied_filt }}"
+                    >
+                    <label for="predefined_build-my-own">
+                        Build my own
+                    </label>
+                </p>
+
             </div>
             <div class="filter-json">
                 <textarea name="filter-json-input">
-                {{ predefined_filters['That LA Diet'] | tojson }}
+                {{ predefined_filters[0].filt | tojson }}
                 </textarea>
             </div>
             <button type="submit">Find me some recipes!</button>

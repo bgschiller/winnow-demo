@@ -31,24 +31,48 @@ def query(q, params):
         keys = [col[0] for col in c.description]
         return [dict(zip(keys, row)) for row in c.fetchall()]
 
-PREDEFINED_FILTERS = {
-    'That LA Diet': {
-        'logical_op': '&',
-        'filter_clauses': [
-            {
-                'data_source': 'Suitable for Diet',
-                'operator': 'any of',
-                'value': ['gluten-free'],
-            },
-        ]
-    },
-}
+PREDEFINED_FILTERS = [
+    dict(
+        name='That LA Diet',
+        filt={
+            'logical_op': '&',
+            'filter_clauses': [
+                {
+                    'data_source': 'Suitable for Diet',
+                    'operator': 'any of',
+                    'value': ['gluten-free'],
+                },
+            ],
+        },
+        icon='<img src="https://cdn0.iconfinder.com/data/icons/food-product-labels/128/gluten-free-256.png">',
+    ),
+    dict(
+        name='Meat and potatoes',
+        filt={
+            'logical_op': '&',
+            'filter_clauses': [
+                {
+                    'data_source': 'Suitable for Diet',
+                    'operator': 'not any of',
+                    'value': ['vegetarian'],
+                },
+                {
+                    'data_source': 'Ingredients',
+                    'operator': 'any of',
+                    'value': ['potatoes'],
+                },
+            ],
+        },
+        icon='<img src="https://www.shareicon.net/data/128x128/2016/01/16/703929_food_512x512.png">',
+    ),
+]
+
 
 # Throw some fake filters in for testing the frontend
 for other_name in (
-        'Meat-eaters', 'Veggie',
+        'Veggie',
         'Quick! use the strawberries before they go bad'):
-    PREDEFINED_FILTERS[other_name] = json.loads(json.dumps(PREDEFINED_FILTERS['That LA Diet']))
+    PREDEFINED_FILTERS.append(dict(PREDEFINED_FILTERS[0], name=other_name))
 
 
 GLUTEN_FREE_RESULTS = [
@@ -74,21 +98,34 @@ GLUTEN_FREE_RESULTS = [
         'yield': ''}]
 
 
+def find_where(lst, **kwargs):
+    for val in lst:
+        for k, v in kwargs.items():
+            if val.get(k) != v:
+                break  # not a match
+        else:  # Every k,v matches.
+            return val
+    return None
+
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
 
+    chosen_filt = find_where(PREDEFINED_FILTERS, name=request.form.get('predefined'))
+
     if request.method == 'POST':
-        filt = PREDEFINED_FILTERS.get(
-            request.form['predefined'],
-            request.form['filter-json-input'])
+        filt = chosen_filt['filt'] if chosen_filt else json.loads(request.form['filter-json-input'])
         results = prepare_and_perform_query(filt)
     else:
+        filt = None
         results = None
         # Just for debugging
-        results = prepare_and_perform_query(PREDEFINED_FILTERS['That LA Diet'])
+        results = prepare_and_perform_query(PREDEFINED_FILTERS[0]['filt'])
 
     return render_template(
         'index.html',
+        chosen_filt=chosen_filt or PREDEFINED_FILTERS[0],
+        user_supplied_filt=filt or json.dumps(RecipeWinnow.empty_filter()),
         predefined_filters=PREDEFINED_FILTERS,
         results=results,
     )

@@ -93,5 +93,5 @@ def diet_suitability(rw, clause):
         )
         ''',
         value=clause['value_vivified'],
-        not_any_of=clause['operator'] == 'not_any_of',
+        not_any_of=clause['operator'] == 'not any of',
     )

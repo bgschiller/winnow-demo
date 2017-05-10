@@ -42,6 +42,9 @@ def schematize_recipe(recipe_id, recipe):
     )
     if len(r.description) > 580:
         return  # too long for db
+
+    if 'http://static.thepioneerwoman.com/' in r.img_url:
+        return  # images no longer load
     yield r
 
     for ing in recipe['ingredients'].split('\n'):
