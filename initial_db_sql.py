@@ -106,8 +106,8 @@ if __name__ == '__main__':
     conn.set_session(autocommit=True)
 
     with conn.cursor() as c:
-        for q in fill_db_stmts():
+        for q, params in fill_db_stmts():
             try:
-                c.execute(*q)
+                c.execute(q, params)
             except Exception as e:
-                print(e, *q)
+                print(e, q, params)

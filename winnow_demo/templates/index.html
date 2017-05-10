@@ -30,20 +30,22 @@
             </div>
             <button type="submit">Find me some recipes!</button>
         </form>
-        <div class="results-target">
-            <div class="sql-string">
-                <pre>{{ sql_results.query }}</pre>
-                <pre>{{ sql_results.params }}</pre>
-            </div>
-            <div class="recipe-results">
-            {% for res in db_results %}
-                <div class="recipe">
-                    <h5><a href="{{ res.url }}">{{ res.name }}</a></h5>
-                    <img src="{{res.img_url}}">
-                    <p>{{ res.description }}</p>
+        {% if results %}
+            <div class="results-target">
+                <div class="sql-string">
+                    <pre>{{ results.query }}</pre>
+                    <pre>{{ results.params }}</pre>
                 </div>
-            {% endfor %}
+                <div class="recipe-results">
+                {% for res in results.rows %}
+                    <div class="recipe">
+                        <h5><a href="{{ res.url }}">{{ res.name }}</a></h5>
+                        <img src="{{res.img_url}}">
+                        <p>{{ res.description }}</p>
+                    </div>
+                {% endfor %}
+                </div>
             </div>
-        </div>
+        {% endif %}
     </body>
 </html>

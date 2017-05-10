@@ -39,7 +39,7 @@ RECIPE_SOURCES = [
         picklist_values=[
             'vegan',
             'vegetarian',
-            'glutenfree',
+            'gluten-free',
             'halal',
             'kosher',
         ]
