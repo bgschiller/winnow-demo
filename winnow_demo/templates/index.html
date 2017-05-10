@@ -95,7 +95,7 @@
                         name="predefined"
                         id="predefined_build-my-own"
                         value="build-my-own"
-                        data-filter="{{ user_supplied_filt }}"
+                        data-filter="{{ empty_filter }}"
                     >
                     <label for="predefined_build-my-own">
                         Build my own
@@ -105,7 +105,7 @@
             </div>
             <div class="filter-json">
                 <textarea name="filter-json-input">
-                {{ predefined_filters[0].filt | tojson }}
+                {{ user_supplied_filt | tojson }}
                 </textarea>
             </div>
             <button type="submit">Find me some recipes!</button>

@@ -24,9 +24,10 @@ def close_db(error):
         g.dbconn.close()
 
 
-def query(q, params):
+def dictfetchall(q, params):
     db = get_db()
     with db.cursor() as c:
+        print(c.mogrify(q, params).decode('utf-8'))
         c.execute(q, params)
         keys = [col[0] for col in c.description]
         return [dict(zip(keys, row)) for row in c.fetchall()]
@@ -59,7 +60,15 @@ PREDEFINED_FILTERS = [
                 {
                     'data_source': 'Ingredients',
                     'operator': 'any of',
-                    'value': ['potatoes'],
+                    'value': ['potato'],
+                },
+                {
+                    'data_source': 'Ingredients',
+                    'operator': 'any of',
+                    'value': [
+                        'beef', 'steak', 'chicken', 'pork', 'turkey', 'sausage',
+                        'lamb',
+                    ],
                 },
             ],
         },
@@ -125,7 +134,8 @@ def index():
     return render_template(
         'index.html',
         chosen_filt=chosen_filt or PREDEFINED_FILTERS[0],
-        user_supplied_filt=filt or json.dumps(RecipeWinnow.empty_filter()),
+        user_supplied_filt=filt or PREDEFINED_FILTERS[0],
+        empty_filter=json.dumps(RecipeWinnow.empty_filter()),
         predefined_filters=PREDEFINED_FILTERS,
         results=results,
     )
@@ -147,7 +157,7 @@ def prepare_and_perform_query(filt):
     rw = RecipeWinnow()
 
     sql = rw.query(copy.deepcopy(filt))
-    rows = query(*sql)
+    rows = dictfetchall(*sql)
     return dict(query=strip_empty_lines(sql.query), params=sql.params, rows=rows)
 
 if __name__ == '__main__':
