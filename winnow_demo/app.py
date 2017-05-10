@@ -139,6 +139,7 @@ def index():
         # Just for debugging
         results = prepare_and_perform_query(PREDEFINED_FILTERS[0]['filt'])
 
+    results['params'] = json.dumps(results['params'], indent=4)
     return render_template(
         'index.html',
         chosen_filt=chosen_filt or PREDEFINED_FILTERS[0],
