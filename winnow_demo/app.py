@@ -45,7 +45,7 @@ PREDEFINED_FILTERS = [
                 },
             ],
         },
-        icon='<img src="https://cdn0.iconfinder.com/data/icons/food-product-labels/128/gluten-free-256.png">',
+        icon='<img src="/static/gluten-free-256.png">',
     ),
     dict(
         name='Meat and potatoes',
@@ -72,7 +72,7 @@ PREDEFINED_FILTERS = [
                 },
             ],
         },
-        icon='<img src="https://www.shareicon.net/data/128x128/2016/01/16/703929_food_512x512.png">',
+        icon='<img src="/static/meat_and_potat.png">'
     ),
 ]
 
@@ -80,7 +80,7 @@ PREDEFINED_FILTERS = [
 # Throw some fake filters in for testing the frontend
 for other_name in (
         'Veggie',
-        'Quick! use the strawberries before they go bad'):
+        'Quick! use the strawberries'):
     PREDEFINED_FILTERS.append(dict(PREDEFINED_FILTERS[0], name=other_name))
 
 
@@ -134,8 +134,8 @@ def index():
     return render_template(
         'index.html',
         chosen_filt=chosen_filt or PREDEFINED_FILTERS[0],
-        user_supplied_filt=filt or PREDEFINED_FILTERS[0],
-        empty_filter=json.dumps(RecipeWinnow.empty_filter()),
+        user_supplied_filt=json.dumps(filt or PREDEFINED_FILTERS[0]['filt'], indent=4, sort_keys=True),
+        empty_filter=json.dumps(RecipeWinnow.empty_filter(), indent=4, sort_keys=True),
         predefined_filters=PREDEFINED_FILTERS,
         results=results,
     )

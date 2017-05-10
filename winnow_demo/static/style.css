@@ -1,0 +1,75 @@
+.predefined-filters {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+.predef-filt {
+    box-sizing: border-box;
+    width: 23%;
+    margin: 20px 1% 20px 0;
+    height: 100%;
+    vertical-align: top;
+    font-size: 22px;
+    text-align: center;
+}
+@media(max-width: 768px){
+    .predefined-filters {
+        flex-wrap: wrap;
+    }
+    .predef-filt {
+        width: 45%;
+    }
+}
+
+label {
+    border: 1px solid rgba(black,.15);
+    box-sizing: border-box;
+    display: block;
+    height: 100%;
+    width: 100%;
+    padding: 10px 10px 30px 10px;
+    cursor: pointer;
+    opacity: .5;
+}
+label:hover, label:focus, label:active {
+    border: 1px solid rgba(black,.5);
+}
+
+input[type="radio"] {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+input[type="radio"]:active ~ label {
+  opacity: 1;
+}
+
+
+input[type="radio"]:checked ~ label {
+    opacity: 1;
+    border: 1px solid black;
+}
+
+.icon img {
+    height: 20vh;
+}
+
+
+.filter-json {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.filter-json textarea {
+    width: 70%;
+    height: 40vh;
+    font-family: monospace;
+    font-size: 1.2em;
+}
+@media(max-width: 500px){
+    .filter-json textarea {
+        width: 90%;
+    }
+}
