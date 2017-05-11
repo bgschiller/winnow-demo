@@ -122,7 +122,6 @@ def find_where(lst, **kwargs):
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-
     chosen_filt = find_where(PREDEFINED_FILTERS, name=request.form.get('predefined'))
 
     if request.method == 'POST':
@@ -141,7 +140,7 @@ def index():
 
     return render_template(
         'index.html',
-        chosen_filt=chosen_filt or request.form['filter-json-input'] or PREDEFINED_FILTERS[0],
+        chosen_filt_name=request.form.get('predefined') or PREDEFINED_FILTERS[0]['name'],
         user_supplied_filt=request.form.get('filter-json-input') or json.dumps(PREDEFINED_FILTERS[0]['filt'], indent=4, sort_keys=True),
         empty_filter=json.dumps(RecipeWinnow.empty_filter(), indent=4, sort_keys=True),
         predefined_filters=PREDEFINED_FILTERS,

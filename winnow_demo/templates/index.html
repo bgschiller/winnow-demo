@@ -19,7 +19,7 @@
                             id="predefined_{{ loop.index }}"
                             value="{{ predef.name }}"
                             data-filter='{{ predef.filt | tojson }}'
-                            {% if predef.name == chosen_filt.name %}checked{% endif %}
+                            {% if predef.name == chosen_filt_name %}checked{% endif %}
                         >
                         <label for="predefined_{{ loop.index }}">
                             <span class="icon">
