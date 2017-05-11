@@ -103,10 +103,20 @@ PREDEFINED_FILTERS = [
         },
         icon='/static/tomato.png'
     ),
-    # dict(
-    #     name='Cookie monster',
-    #
-    # ),
+    dict(
+        name='Cookie monster',
+        filt={
+            'logical_op': '&',
+            'filter_clauses': [
+                {
+                    'data_source': 'name',
+                    'operator': 'contains',
+                    'value': 'cookie',
+                },
+            ],
+        },
+        icon='/static/tomato.png',
+    ),
 ]
 
 
