@@ -1,6 +1,8 @@
-from flask import Flask, render_template, request, jsonify, g
+from flask import Flask, render_template, request, jsonify, g, flash
 from recipe_winnow import RecipeWinnow
+from winnow.error import WinnowError
 import json
+from json.decoder import JSONDecodeError
 import psycopg2
 import os
 import copy
@@ -14,6 +16,7 @@ class HighlightingFlask(Flask):
 
 
 app = HighlightingFlask(__name__)
+app.secret_key = os.getenv('FLASK_SECRET_KEY', 'moosesoup4you')
 
 
 DATABASE_URL = os.getenv('DATABASE_URL', 'dbname=winnow_recipes')
@@ -100,6 +103,10 @@ PREDEFINED_FILTERS = [
         },
         icon='/static/tomato.png'
     ),
+    # dict(
+    #     name='Cookie monster',
+    #
+    # ),
 ]
 
 
@@ -119,19 +126,23 @@ def index():
     chosen_filt = find_where(PREDEFINED_FILTERS, name=request.form.get('predefined'))
 
     if request.method == 'POST':
-        filt = chosen_filt['filt'] if chosen_filt else json.loads(request.form['filter-json-input'])
-        results = prepare_and_perform_query(filt)
+        try:
+            filt = chosen_filt['filt'] if chosen_filt else json.loads(request.form['filter-json-input'])
+            results = prepare_and_perform_query(filt)
+            results['params'] = json.dumps(results['params'], indent=4)
+        except WinnowError as e:
+            filt = results = None
+            flash(e, 'error')
+        except JSONDecodeError:
+            filt = results = None
+            flash("Filter is invalid JSON", 'error')
     else:
-        filt = None
-        results = None
-        # Just for debugging
-        results = prepare_and_perform_query(PREDEFINED_FILTERS[1]['filt'])
+        filt = results = None
 
-    results['params'] = json.dumps(results['params'], indent=4)
     return render_template(
         'index.html',
-        chosen_filt=chosen_filt or PREDEFINED_FILTERS[0],
-        user_supplied_filt=json.dumps(filt or PREDEFINED_FILTERS[0]['filt'], indent=4, sort_keys=True),
+        chosen_filt=chosen_filt or request.form['filter-json-input'] or PREDEFINED_FILTERS[0],
+        user_supplied_filt=request.form.get('filter-json-input') or json.dumps(PREDEFINED_FILTERS[0]['filt'], indent=4, sort_keys=True),
         empty_filter=json.dumps(RecipeWinnow.empty_filter(), indent=4, sort_keys=True),
         predefined_filters=PREDEFINED_FILTERS,
         results=results,
@@ -153,7 +164,10 @@ def recipe_filter():
 def prepare_and_perform_query(filt):
     rw = RecipeWinnow()
 
-    sql = rw.query(copy.deepcopy(filt))
+    where_clauses = rw.where_clauses(copy.deepcopy(filt))
+    sql = rw.prepare_query(
+        'SELECT * FROM recipe WHERE {{ where_clauses }} LIMIT 10',
+        where_clauses=where_clauses)
     rows = dictfetchall(*sql)
     return dict(query=strip_empty_lines(sql.query), params=sql.params, rows=rows)
 

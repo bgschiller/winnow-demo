@@ -205,3 +205,20 @@ footer span {
 footer span a {
     color: #fff;
 }
+
+.flashes {
+    list-style: none;
+    width: 100%;
+    padding: 0;
+}
+
+.flashes li {
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border: 1px solid #fafafa;
+}
+.flashes li.error {
+    background-color: hsla(7, 78%, 59%, 1);
+    color: #fafafa;
+}
