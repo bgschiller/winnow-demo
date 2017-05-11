@@ -5,65 +5,84 @@
         <title>Winnow Demo</title>
         <link rel="stylesheet" href="/static/bw.css">
         <link rel="stylesheet" href="/static/style.css">
-        <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,400i" rel="stylesheet">
     </head>
     <body>
         <h1>Winnow Demo - Recipe Search</h1>
-        <form method="post" action="/#results">
-            <h2>Choose a filter to find corresponding recipes</h2>
-            <div class="predefined-filters">
-                {% for predef in predefined_filters %}
+        <div class="form-and-sources-list">
+            <form method="post" action="/#results" class="form-and-sources-list-child">
+                <h2>Choose a filter to find corresponding recipes</h2>
+                <div class="predefined-filters">
+                    {% for predef in predefined_filters %}
+                        <p class="predef-filt">
+                            <input type="radio"
+                                name="predefined"
+                                id="predefined_{{ loop.index }}"
+                                value="{{ predef.name }}"
+                                data-filter='{{ predef.filt | tojson }}'
+                                {% if predef.name == chosen_filt_name %}checked{% endif %}
+                            >
+                            <label for="predefined_{{ loop.index }}">
+                                <span class="icon">
+                                    <img src="{{ predef.icon }}">
+                                </span>
+                                <br>
+                                {{ predef.name }}
+                            </label>
+                        </p>
+                    {% endfor %}
                     <p class="predef-filt">
                         <input type="radio"
                             name="predefined"
-                            id="predefined_{{ loop.index }}"
-                            value="{{ predef.name }}"
-                            data-filter='{{ predef.filt | tojson }}'
-                            {% if predef.name == chosen_filt_name %}checked{% endif %}
+                            id="predefined_build-my-own"
+                            value="build-my-own"
+                            data-filter='{{ empty_filter }}'
                         >
-                        <label for="predefined_{{ loop.index }}">
+                        <label for="predefined_build-my-own">
                             <span class="icon">
-                                <img src="{{ predef.icon }}">
+                                <img src="/static/tools.png">
                             </span>
                             <br>
-                            {{ predef.name }}
+                            Build my own
                         </label>
                     </p>
-                {% endfor %}
-                <p class="predef-filt">
-                    <input type="radio"
-                        name="predefined"
-                        id="predefined_build-my-own"
-                        value="build-my-own"
-                        data-filter='{{ empty_filter }}'
-                    >
-                    <label for="predefined_build-my-own">
-                        <span class="icon">
-                            <img src="/static/tools.png">
-                        </span>
-                        <br>
-                        Build my own
-                    </label>
-                </p>
 
-            </div>
-            {% with messages = get_flashed_messages(with_categories=true) %}
-              {% if messages %}
-                <ul id="results" class=flashes>
-                {% for category, message in messages %}
-                  <li class="{{ category }}">{{ message }}</li>
-                {% endfor %}
+                </div>
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                  {% if messages %}
+                    <ul id="results" class=flashes>
+                    {% for category, message in messages %}
+                      <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                    </ul>
+                  {% endif %}
+                {% endwith %}
+                <div class="filter-json">
+                    <textarea name="filter-json-input">{{ user_supplied_filt  }}
+                    </textarea>
+                </div>
+                <div class="find-recipes-wrapper">
+                    <button class="find-recipes" type="submit">Find me some recipes!</button>
+                </div>
+            </form>
+            <div class="form-and-sources-list-child">
+                <h4>Available Recipe Sources</h4>
+                <ul class="list-of-sources">
+                    {% for source in sources %}
+                        <li class="source-list">
+                            <strong>{{ source.display_name }}</strong>
+                            <emph>with operators: </emph>
+                            {% for operator in source.operators %}
+                                <span>
+                                    {{ operator.name }}
+                                    {% if not loop.last %},{% endif %}
+                                </span>
+                            {% endfor %}
+                        </li>
+                    {% endfor %}
                 </ul>
-              {% endif %}
-            {% endwith %}
-            <div class="filter-json">
-                <textarea name="filter-json-input">{{ user_supplied_filt  }}
-                </textarea>
             </div>
-            <div class="find-recipes-wrapper">
-                <button class="find-recipes" type="submit">Find me some recipes!</button>
-            </div>
-        </form>
+        </div>
         {% if results %}
             <div id="results" class="results-target">
                 <div class="sql-string">

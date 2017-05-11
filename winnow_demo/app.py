@@ -6,6 +6,7 @@ from json.decoder import JSONDecodeError
 import psycopg2
 import os
 import copy
+from operator import itemgetter
 
 
 class HighlightingFlask(Flask):
@@ -130,6 +131,19 @@ def find_where(lst, **kwargs):
     return None
 
 
+def sources_with_operators():
+    rw = RecipeWinnow()
+    sources = copy.deepcopy(sorted(rw.sources, key=itemgetter('display_name')))
+    for source in sources:
+        ops = []
+        for op in rw.operators:
+            if op['value_type'] in source['value_types']:
+                ops.append(op)
+        ops.sort(key=itemgetter('name'))
+        source['operators'] = ops
+    return sources
+
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     chosen_filt = find_where(PREDEFINED_FILTERS, name=request.form.get('predefined'))
@@ -155,6 +169,7 @@ def index():
         empty_filter=json.dumps(RecipeWinnow.empty_filter(), indent=4, sort_keys=True),
         predefined_filters=PREDEFINED_FILTERS,
         results=results,
+        sources=sources_with_operators(),
     )
 
 

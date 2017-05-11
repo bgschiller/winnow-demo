@@ -1,13 +1,13 @@
 html {
     font-family: 'Montserrat', sans-serif;
-    font-weight: 300;
+    font-weight: 400;
     background-color: #009688;
     color: white;
 }
 h1, h2 {
     width: 100%;
     text-align: center;
-    font-weight: 300;
+    font-weight: 400;
 }
 
 h2 {
@@ -44,7 +44,7 @@ label {
     border: 1px solid rgba(black,.15);
     box-sizing: border-box;
     display: block;
-    height: calc(20vh + 5rem);
+    height: calc(16vh + 5rem);
     width: 100%;
     padding: 10px 10px 30px 10px;
     cursor: pointer;
@@ -73,7 +73,7 @@ input[type="radio"]:checked ~ label {
 }
 
 .icon img {
-    height: 20vh;
+    height: 16vh;
     filter: invert(1);
     -webkit-filter: invert(1);
 }
@@ -221,4 +221,18 @@ footer span a {
 .flashes li.error {
     background-color: hsla(7, 78%, 59%, 1);
     color: #fafafa;
+}
+
+.form-and-sources-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+emph {
+    font-style: italic;:
+}
+
+.list-of-sources li {
+    margin-bottom: 3px;
 }
