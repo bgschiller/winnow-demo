@@ -190,7 +190,7 @@ def prepare_and_perform_query(filt):
 
     where_clauses = rw.where_clauses(copy.deepcopy(filt))
     sql = rw.prepare_query(
-        'SELECT * FROM recipe WHERE {{ where_clauses }} LIMIT 10',
+        'SELECT * FROM recipe WHERE\n{{ where_clauses }}\nLIMIT 10',
         where_clauses=where_clauses)
     rows = dictfetchall(*sql)
     return dict(query=strip_empty_lines(sql.query), params=sql.params, rows=rows)

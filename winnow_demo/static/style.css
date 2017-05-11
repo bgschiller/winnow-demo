@@ -77,7 +77,7 @@ input[type="radio"]:checked ~ label {
     filter: invert(1);
     -webkit-filter: invert(1);
 }
-@media(max-width: 500px){
+@media(max-width: 768px){
     .icon img {
         height: 12vh;
     }
@@ -105,7 +105,7 @@ input[type="radio"]:checked ~ label {
     padding: 10px 15px;
     font-size: 1.3rem;
     background-color: #fff;
-    border-radius: 5px;;
+    /*border-radius: 5px;*/
     border: 0;
     color: #00796b;
     cursor: pointer;
@@ -122,10 +122,11 @@ input[type="radio"]:checked ~ label {
     margin-top: 20px;
     background-color: rgba(255,255,255,0.9);
     border: none;
-    border-radius: 5px;
+    border-radius: 3px;
+    box-shadow: 0 0 5px rgba(255,255,255,0.8);
     outline: 0 !important;
 }
-@media(max-width: 500px){
+@media(max-width: 768px){
     .filter-json textarea {
         width: 90%;
     }
@@ -148,7 +149,7 @@ input[type="radio"]:checked ~ label {
     padding: 0.5em;
 }
 
-@media(max-width: 500px){
+@media(max-width: 768px){
     .sql-string .highlight {
         width: 100%;
         overflow: scroll;
@@ -195,14 +196,14 @@ footer {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
+    text-align: center;
 }
 
-footer span {
-    margin-bottom: 10px;
+footer p {
     margin-left: 5px;
     margin-right: 5px;
 }
-footer span a {
+footer a {
     color: #fff;
 }
 
@@ -233,6 +234,10 @@ emph {
     font-style: italic;:
 }
 
+ul.list-of-sources {
+    list-style-type: square;
+}
+
 .list-of-sources li {
-    margin-bottom: 3px;
+    margin-bottom: 5px;
 }
