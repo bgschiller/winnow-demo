@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, jsonify, g
 from recipe_winnow import RecipeWinnow
 import json
-import datetime
 import psycopg2
 import os
 import copy
@@ -83,7 +82,7 @@ PREDEFINED_FILTERS = [
         icon='/static/meat_and_potat.png'
     ),
     dict(
-        name='Quick, use the tomatoes!',
+        name='Quick, the tomatoes!',
         filt={
             'logical_op': '&',
             'filter_clauses': [

@@ -3,8 +3,9 @@
     <head>
         <meta charset="utf-8">
         <title>Winnow Demo</title>
-        <link rel="stylesheet" href="/static/friendly.css">
+        <link rel="stylesheet" href="/static/bw.css">
         <link rel="stylesheet" href="/static/style.css">
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400" rel="stylesheet">
     </head>
     <body>
         <h1>Winnow Demo - Recipe Search</h1>
@@ -50,7 +51,9 @@
                 <textarea name="filter-json-input">{{ user_supplied_filt  }}
                 </textarea>
             </div>
-            <button type="submit">Find me some recipes!</button>
+            <div class="find-recipes-wrapper">
+                <button class="find-recipes" type="submit">Find me some recipes!</button>
+            </div>
         </form>
         {% if results %}
             <div id="results" class="results-target">
@@ -65,7 +68,7 @@
                     <div class="recipe">
                         <a href="{{ res.url }}"><img src="{{res.img_url}}"></a>
                         <div class="recipe-text">
-                            <p class="recipe-title"><a href="{{ res.url }}">{{ res.name }}</a></p>
+                            <p class="recipe-title"><a class="recipe-link" href="{{ res.url }}">{{ res.name }}</a></p>
                             <p class="recipe-description">{{ res.description }}</p>
                         </div>
                     </div>
@@ -73,6 +76,17 @@
                 </div>
             </div>
         {% endif %}
+        <footer>
+            <span>
+                docs at <a href="http://winnow.readthedocs.io/">winnow.readthedocs.io</a>
+            </span>
+            <span>
+                winnow code at <a href="https://github.com/bgschiller/winnow">github.com/bgschiller/winnow</a>
+            </span>
+            <span>
+                this page code at <a href="https://github.com/bgschiller/winnow-demo">github.com/bgschiller/winnow-demo</a>
+            </span>
+        </footer>
         <script type="application/javascript" src="/static/index.js"></script>
     </body>
 </html>
