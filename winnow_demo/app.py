@@ -55,7 +55,7 @@ PREDEFINED_FILTERS = [
                 },
             ],
         },
-        icon='/static/tomato.png',
+        icon='/static/cookie.png',
     ),
     dict(
         name='That LA Diet',
