@@ -44,6 +44,20 @@ def dictfetchall(q, params):
 
 PREDEFINED_FILTERS = [
     dict(
+        name='Cookie monster',
+        filt={
+            'logical_op': '&',
+            'filter_clauses': [
+                {
+                    'data_source': 'Name',
+                    'operator': 'contains',
+                    'value': 'cookie',
+                },
+            ],
+        },
+        icon='/static/tomato.png',
+    ),
+    dict(
         name='That LA Diet',
         filt={
             'logical_op': '&',
@@ -56,6 +70,25 @@ PREDEFINED_FILTERS = [
             ],
         },
         icon='/static/gluten-free-256.png',
+    ),
+    dict(
+        name='Quick, the tomatoes!',
+        filt={
+            'logical_op': '&',
+            'filter_clauses': [
+                {
+                    'data_source': 'Cook Time (minutes)',
+                    'operator': '<=',
+                    'value': 5,
+                },
+                {
+                    'data_source': 'Ingredients',
+                    'operator': 'any of',
+                    'value': ['tomatoes'],
+                },
+            ],
+        },
+        icon='/static/tomato.png'
     ),
     dict(
         name='Meat and potatoes',
@@ -83,39 +116,6 @@ PREDEFINED_FILTERS = [
             ],
         },
         icon='/static/meat_and_potat.png'
-    ),
-    dict(
-        name='Quick, the tomatoes!',
-        filt={
-            'logical_op': '&',
-            'filter_clauses': [
-                {
-                    'data_source': 'Cook Time (minutes)',
-                    'operator': '<=',
-                    'value': 5,
-                },
-                {
-                    'data_source': 'Ingredients',
-                    'operator': 'any of',
-                    'value': ['tomatoes'],
-                },
-            ],
-        },
-        icon='/static/tomato.png'
-    ),
-    dict(
-        name='Cookie monster',
-        filt={
-            'logical_op': '&',
-            'filter_clauses': [
-                {
-                    'data_source': 'name',
-                    'operator': 'contains',
-                    'value': 'cookie',
-                },
-            ],
-        },
-        icon='/static/tomato.png',
     ),
 ]
 
