@@ -104,8 +104,9 @@ def fill_db_stmts():
 
 if __name__ == '__main__':
     import psycopg2
+    import os
 
-    conn = psycopg2.connect('dbname=winnow_recipes')
+    conn = psycopg2.connect(os.getenv('DATABASE_URL', 'dbname=winnow_recipes'))
     conn.set_session(autocommit=True)
 
     with conn.cursor() as c:
