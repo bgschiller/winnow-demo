@@ -99,7 +99,8 @@ input[type="radio"]:checked ~ label {
 .find-recipes-wrapper {
     width: 100%;
     text-align: center;
-    padding: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 .find-recipes {
     padding: 10px 15px;
