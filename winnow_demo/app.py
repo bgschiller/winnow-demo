@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request, jsonify, g, flash
-from recipe_winnow import RecipeWinnow
 from winnow.error import WinnowError
 import json
 from json.decoder import JSONDecodeError
@@ -7,6 +6,8 @@ import psycopg2
 import os
 import copy
 from operator import itemgetter
+
+from .recipe_winnow import RecipeWinnow
 
 
 class HighlightingFlask(Flask):
@@ -38,7 +39,6 @@ def close_db(error):
 def dictfetchall(q, params):
     db = get_db()
     with db.cursor() as c:
-        print(c.mogrify(q, params).decode('utf-8'))
         c.execute(q, params)
         keys = [col[0] for col in c.description]
         return [dict(zip(keys, row)) for row in c.fetchall()]
