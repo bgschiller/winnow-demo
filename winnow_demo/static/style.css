@@ -102,7 +102,7 @@ input[type="radio"]:checked ~ label {
     padding-top: 20px;
     padding-bottom: 20px;
 }
-.find-recipes {
+.call-to-action {
     padding: 10px 15px;
     font-size: 1.3rem;
     background-color: #fff;
@@ -191,7 +191,7 @@ a.recipe-link {
     width: 100%;
 }
 
-footer {
+.calls-to-action {
     margin-top: 30px;
     margin-bottom: 30px;
     display: flex;
@@ -200,11 +200,11 @@ footer {
     text-align: center;
 }
 
-footer p {
+.calls-to-action p {
     margin-left: 5px;
     margin-right: 5px;
 }
-footer a {
+.calls-to-action a {
     color: #fff;
 }
 
@@ -241,4 +241,26 @@ ul.list-of-sources {
 
 .list-of-sources li {
     margin-bottom: 5px;
+}
+
+.intro {
+    width: 100%;
+}
+.intro p {
+    max-width: 600px;
+    margin: 15px auto;
+    text-align: center;
+
+}
+
+.code {
+    font-family: monospace;
+}
+
+footer {
+    width: 100%;
+    text-align: center;
+}
+footer a {
+    color: #fff;
 }

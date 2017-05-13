@@ -10,6 +10,17 @@
     </head>
     <body>
         <h1>Winnow Demo - Recipe Search</h1>
+        <div class="intro">
+            <p>
+                Winnow is a Python package for safely building SQL where clauses from untrusted user input. It’s designed to be expressive, extensible, and fast.
+            </p>
+            <p>
+                Filters are created by combining a data_source, operator, and a value. They can be nested to make constructions like <span class="code">(a OR b OR (c AND (d OR f)))</span>.
+            </p>
+            <p>
+                Try out some of the examples, or build your own :)
+            </p>
+        </div>
         <div class="form-and-sources-list">
             <form method="post" action="/#results" class="form-and-sources-list-child">
                 <h2>Choose a filter to find corresponding recipes</h2>
@@ -63,16 +74,15 @@
                     </textarea>
                 </div>
                 <div class="find-recipes-wrapper">
-                    <button class="find-recipes" type="submit">Find me some recipes!</button>
+                    <button class="call-to-action" type="submit">Find me some recipes!</button>
                 </div>
             </form>
             <div class="form-and-sources-list-child">
-                <h4>Available Recipe Sources</h4>
+                <h4>Available Recipe Sources and their operators</h4>
                 <ul class="list-of-sources">
                     {% for source in sources %}
                         <li class="source-list">
-                            <strong>{{ source.display_name }}</strong>
-                            <emph>with operators: </emph>
+                            <strong>{{ source.display_name }}: </strong>
                             {% for operator in source.operators %}
                                 <span>
                                     {{ operator.name }}
@@ -105,15 +115,20 @@
                 </div>
             </div>
         {% endif %}
+        <div class="calls-to-action">
+            <p>
+                <a href="http://winnow.readthedocs.io/"><button class="call-to-action">Read the docs</button></a>
+            </p>
+            <p>
+                <a href="https://github.com/bgschiller/winnow"><button class="call-to-action">See the code</button></a>
+            </p>
+            <p>
+                <a href="https://github.com/bgschiller/winnow-demo"><button class="call-to-action">See this demo's code</button></a>
+            </p>
+        </div>
         <footer>
             <p>
-                docs at <a href="http://winnow.readthedocs.io/">winnow.readthedocs.io</a>
-            </p>
-            <p>
-                winnow code at <a href="https://github.com/bgschiller/winnow">github.com/bgschiller/winnow</a>
-            </p>
-            <p>
-                this page code at <a href="https://github.com/bgschiller/winnow-demo">github.com/bgschiller/winnow-demo</a>
+                Winnow and this demo were built by <a href="https://brianschiller.com">Brian Schiller</a>
             </p>
         </footer>
         <script type="application/javascript" src="/static/index.js"></script>
